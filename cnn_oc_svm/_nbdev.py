@@ -2,9 +2,9 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"hello_world": "00_core.ipynb"}
+index = {"cnn_oc_svm": "00_cnn_oc_svm.ipynb"}
 
-modules = ["core.py"]
+modules = ["cnn_oc_svm.py"]
 
 doc_url = "https://ErinMyLungs.github.io/cnn_oc_svm/"
 

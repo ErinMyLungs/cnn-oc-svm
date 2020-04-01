@@ -10,8 +10,8 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: module name here
-      url: /core
+      title: cnn_oc_svm
+      url: /cnn_oc_svm
     output: web
     title: cnn_oc_svm
   output: web

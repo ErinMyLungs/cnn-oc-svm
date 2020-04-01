@@ -1,6 +1,6 @@
 {
   "cnn_oc_svm": {
     "Overview": "/",
-    "module name here": "/core"
+    "cnn_oc_svm": "/cnn_oc_svm"
   }
 }

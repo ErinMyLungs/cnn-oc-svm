@@ -1,3 +1,7 @@
+# Basic mnist and random data ignores
+data
+MNIST
+
 *.bak
 .gitattributes
 .last_checked
@@ -14,6 +18,7 @@ tags
 __pycache__/
 *.py[cod]
 *$py.class
+
 
 # C extensions
 *.so
