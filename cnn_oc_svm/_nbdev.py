@@ -2,7 +2,8 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"cnn_oc_svm": "00_cnn_oc_svm.ipynb"}
+index = {"cnn_oc_svm": "00_cnn_oc_svm.ipynb",
+         "create_basic_neural_net_structure": "00_cnn_oc_svm.ipynb"}
 
 modules = ["cnn_oc_svm.py"]
 

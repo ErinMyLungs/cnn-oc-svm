@@ -11,22 +11,9 @@ Check out the development branches! They will have much more interesting stuff t
 
 ## How to use
 
-```
+```python
 print('Hello world, we\'ll be running soon!')
 ```
 
     Hello world, we'll be running soon!
-
-
-#### Using the one hello_world function
-
-```
-hello_world()
-```
-
-
-
-
-    'hello_world'
-
 
