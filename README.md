@@ -11,7 +11,7 @@ Check out the development branches! They will have much more interesting stuff t
 
 ## How to use
 
-```python
+```
 print('Hello world, we\'ll be running soon!')
 ```
 
