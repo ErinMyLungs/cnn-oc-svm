@@ -195,10 +195,11 @@ returns: Sequential neural net for training and inference.</p>
 <span class="k">for</span> <span class="n">improper_input_size</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mf">293.4</span><span class="p">,</span> <span class="s2">&quot;foobar&quot;</span><span class="p">]:</span>
 
     <span class="k">try</span><span class="p">:</span>
-
         <span class="n">create_basic_neural_net_structure</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="n">improper_input_size</span><span class="p">)</span>
+        
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">good_error</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input must be greater than 0 and an integer, received </span><span class="si">{</span><span class="n">improper_input_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">good_error</span><span class="p">)</span>
+        
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">good_error</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">good_error</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input size must be an integer, received type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">improper_input_size</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
 
@@ -310,29 +311,8 @@ this example image is a 9
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.003</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-<span class="n">epochs</span> <span class="o">=</span> <span class="mi">3</span>
-
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-    <span class="n">running_loss</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">training_data_loader</span><span class="p">:</span>
-        <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">images</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        
-        <span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">predicted_labels</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-        
-        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        
-        <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2"> - Training loss: </span><span class="si">{</span><span class="n">running_loss</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">training_data_loader</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training time (s): </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        
+<span class="n">our_latest_and_greatest</span> <span class="o">=</span> <span class="n">cnn_oc_svm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+<span class="n">our_latest_and_greatest</span><span class="o">.</span><span class="n">training</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.003</span><span class="p">,</span> <span class="n">training_data_loader</span><span class="o">=</span><span class="n">training_data_loader</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -345,12 +325,62 @@ this example image is a 9
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch 1 - Training loss: 0.6164425287419545
-Epoch 2 - Training loss: 0.2789036152618272
-Epoch 3 - Training loss: 0.21704437942710766
-Training time (s): 36.0192015171051
+<pre>Epoch 1 - Training loss: 0.6250352118569397
+Training time (s): 11.143050193786621
 </pre>
 </div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>586.2830287218094</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">our_latest_and_greatest</span><span class="o">.</span><span class="n">evaluation</span><span class="p">(</span><span class="n">validation_data_loader</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Images tested: 10000 
+ Classification Accuracy: 0.9123
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1.0961306587745259</pre>
+</div>
+
 </div>
 
 </div>

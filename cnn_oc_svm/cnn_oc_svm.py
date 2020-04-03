@@ -41,7 +41,7 @@ class cnn_oc_svm:
 
                 optimizer.step()
 
-                self.running_loss += loss.item()
+                running_loss += loss.item()
 
             else:
                 print(f"Epoch {epoch} - Training loss: {running_loss/len(training_data_loader)}")
@@ -49,6 +49,31 @@ class cnn_oc_svm:
         print(f"Training time (s): {time.time()-start_time}")
         return running_loss
 
+    def evaluation(self, validation_data_loader):
+        """
+        Simple evaluation function to check neural network accuracy
+        """
+        correct_classification, total_count = 0, 0
+        for images, labels in validation_data_loader:
+            for i in range(len(labels)):
+                img = images[i].view(1, 784)
+
+                with torch.no_grad(): # no grad because we are evaluation mode! using .eval() might work too
+                    log_probabilities = model(img)
+                probabilities = list(torch.exp(log_probabilities).numpy()[0])
+
+                predicted_label = probabilities.index(max(probabilities))
+                true_label = labels.numpy()[i]
+
+                if predicted_label == true_label:
+                    correct_classification += 1
+
+                total_count += 1
+        print(f"Images tested: {total_count} \n Classification Accuracy: {correct_classification/total_count}")
+        return correct_classification/total_count
+
+    def _repr__(self):
+        return str(self.neural_net)
 
 # Cell
 def create_basic_neural_net_structure(input_size=28*28, hidden_sizes=[128, 64], number_of_classes=10):
