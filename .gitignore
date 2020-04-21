@@ -1,7 +1,7 @@
 # Basic mnist and random data ignores
 data
 MNIST
-
+FashionMNIST
 *.bak
 .gitattributes
 .last_checked
